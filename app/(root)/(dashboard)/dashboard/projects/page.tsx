@@ -1,12 +1,11 @@
 import React from 'react'
-import PerformancePage from './_components/Performance'
-
+import ProjectsPage from './_components/ProjectsPage'
 const page = () => {
   return (
     <div>
-        <PerformancePage/>
+        <ProjectsPage />
     </div>
-)
+  )
 }
 
 export default page

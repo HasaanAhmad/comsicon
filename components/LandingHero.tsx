@@ -72,13 +72,10 @@ const LandingHero = () => {
             Start for free
             <ArrowRight className="h-4 w-4" />
           </Button>
-          <Button size="lg" variant="outline" className="px-8 text-base border-[#9b87f5] text-[#9b87f5] hover:bg-[#f3f2fd] h-14">
-            Book a demo
-          </Button>
         </motion.div>
         
         <motion.div
-          className="relative border border-[#ede8fb] shadow-lg rounded-xl overflow-hidden"
+          className="relative  rounded-xl overflow-hidden"
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
@@ -86,9 +83,8 @@ const LandingHero = () => {
           <img 
             src="/assets/landing.png" 
             alt="Platform dashboard"
-            className="w-full max-w-3xl rounded-xl object-cover" 
+            className="w-full max-w-4xl rounded-xl object-cover" 
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1A1F2C]/30 to-transparent"></div>
         </motion.div>
       </div>
     </section>
