@@ -1,4 +1,3 @@
-
 import React from "react";
 import { CalendarClock, Check, Clock, Users } from "lucide-react";
 import { Progress } from "@/components/ui/progress";

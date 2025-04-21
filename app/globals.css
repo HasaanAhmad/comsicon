@@ -76,6 +76,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --kaam-purple: oklch(0.488 0.243 264.376);
+  --kaam-purple-dark: oklch(0.388 0.243 264.376);
 }
 
 .dark {
@@ -114,9 +116,143 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
+    outline-color: rgb(var(--ring) / 0.5);
   }
+  
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+@layer components {
+  /* Base glass effect */
+  .glass-effect {
+    background-color: rgb(255 255 255 / 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgb(255 255 255 / 0.2);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: rgb(0 0 0 / 0.4);
+      border-color: rgb(255 255 255 / 0.1);
+    }
+  }
+  
+  /* Dashboard card */
+  .dashboard-card {
+    background-color: rgb(245 242 250);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgb(255 255 255 / 0);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 1.5rem;
+    transition-property: all;
+    transition-duration: 300ms;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--card);
+      border-color: rgb(255 255 255 / 0.1);
+    }
+
+    &:hover {
+      box-shadow: 0 4px 6px -1px rgb(var(--primary) / 0.1);
+    }
+  }
+  
+  /* Sidebar items */
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-inline: 0.75rem;
+    padding-block: 0.5rem;
+    border-radius: var(--radius-md);
+    color: var(--muted-foreground);
+    transition-property: all;
+    transition-duration: 200ms;
+
+    &:hover {
+      color: var(--primary);
+      background-color: rgb(var(--accent) / 0.5);
+    }
+  }
+  
+  .sidebar-item.active {
+    color: var(--primary);
+    background-color: rgb(var(--accent) / 0.8);
+    font-weight: 500;
+  }
+  
+  /* Purple gradient */
+  .gradient-purple {
+    background: linear-gradient(to right, var(--kaam-purple), var(--kaam-purple-dark));
+    color: white;
+  }
+  
+  /* Status badges */
+  .status-badge {
+    padding-inline: 0.5rem;
+    padding-block: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 9999px;
+  }
+  
+  .status-todo {
+    background-color: rgb(254 249 195);
+    color: rgb(242, 141, 27);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: rgb(161 98 7 / 0.3);
+      color: rgb(254 240 138);
+    }
+  }
+  
+  .status-progress {
+    background-color: rgb(219 234 254);
+    color: rgb(30 64 175);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: rgb(30 58 138 / 0.3);
+      color: rgb(191 219 254);
+    }
+  }
+  
+  .status-completed {
+    background-color: rgb(220 252 231);
+    color: rgb(22 101 52);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: rgb(20 83 45 / 0.3);
+      color: rgb(187 247 208);
+    }
+  }
+  
+  /* Priority classes */
+  .priority-high {
+    color: rgb(220 38 38);
+
+    @media (prefers-color-scheme: dark) {
+      color: rgb(248 113 113);
+    }
+  }
+  
+  .priority-medium {
+    color: rgb(249 115 22);
+
+    @media (prefers-color-scheme: dark) {
+      color: rgb(251 146 60);
+    }
+  }
+  
+  .priority-low {
+    color: rgb(22 163 74);
+
+    @media (prefers-color-scheme: dark) {
+      color: rgb(74 222 128);
+    }
   }
 }

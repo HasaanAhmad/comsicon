@@ -80,8 +80,8 @@ const ChatPanel = () => {
   };
 
   return (
-    <div className="dashboard-card flex flex-col h-[500px]">
-      <div className="flex items-center justify-between border-b pb-4 mb-4">
+    <div className="dashboard-card flex flex-col h-[500px] overflow-hidden">
+      <div className="flex items-center justify-between border-b pb-4">
         <div className="flex items-center gap-2">
           <h3 className="text-lg font-semibold">Team Chat</h3>
           <span className="inline-flex h-2 w-2 rounded-full bg-green-500"></span>
@@ -101,8 +101,8 @@ const ChatPanel = () => {
         </div>
       </div>
       
-      <ScrollArea className="flex-1 pr-4">
-        <div className="space-y-4">
+      <ScrollArea className="flex-1 overflow-hidden relative">
+        <div className="space-y-4 pb-4 px-1">
           {messages.map((message) => (
             <div 
               key={message.id} 
@@ -113,7 +113,7 @@ const ChatPanel = () => {
                   message.isCurrentUser 
                     ? "bg-primary text-primary-foreground" 
                     : "bg-muted"
-                } rounded-lg p-3`}
+                } rounded-lg p-3 break-words`}
               >
                 {!message.isCurrentUser && (
                   <div className="flex items-center gap-2 mb-1">
@@ -135,17 +135,17 @@ const ChatPanel = () => {
         </div>
       </ScrollArea>
       
-      <div className="border-t mt-4 pt-4">
-        <div className="flex gap-2">
+      <div className="border-t pt-4 mt-auto">
+        <div className="flex gap-2 max-h-[120px]">
           <Textarea
             placeholder="Type your message..."
-            className="min-h-[60px]"
+            className="min-h-[60px] max-h-[100px] resize-y"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={handleKeyDown}
           />
           
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 flex-shrink-0">
             <Button variant="outline" size="icon" className="h-8 w-8">
               <PaperclipIcon className="h-4 w-4" />
             </Button>
