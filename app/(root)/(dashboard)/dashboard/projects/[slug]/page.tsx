@@ -1,22 +1,21 @@
 import React from 'react';
 import ProjectKanbanView from './_components/KanbanListView';
 
-interface ProjectPageProps {
-  params: {
-    slug: string;
-  };
-}
 
-const ProjectPage = ({ params }: ProjectPageProps) => {
-  // Use "paam" as the slug value
-  const projectSlug = params.slug;
-  console.log('====================================');
-  console.log(projectSlug);
-  console.log('====================================');
-  
+const ProjectPage = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) => {
+  const { slug } = await params;
+console.log('====================================');
+console.log(slug);
+console.log('====================================');
+
+
   return (
     <div>
-      <ProjectKanbanView slug= {projectSlug} />
+      {slug}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import React from "react";
+import Link from "next/link";
 
 const LandingHero = () => {
   return (
@@ -62,17 +63,19 @@ const LandingHero = () => {
           No more context switching.
         </motion.p>
         
+        <Link href="/authentication">
         <motion.div
           className="flex flex-col sm:flex-row gap-4 justify-center mb-10"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-        >
+          >
           <Button size="lg" className="px-8 text-base shadow-md bg-[#9b87f5] hover:bg-[#7E69AB] transition gap-2 h-14">
             Start for free
             <ArrowRight className="h-4 w-4" />
           </Button>
         </motion.div>
+          </Link>
         
         <motion.div
           className="relative  rounded-xl overflow-hidden"
