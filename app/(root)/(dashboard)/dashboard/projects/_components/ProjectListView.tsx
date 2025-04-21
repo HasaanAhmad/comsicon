@@ -27,7 +27,7 @@ const ProjectListView: React.FC<ProjectListViewProps> = ({ projects }) => {
               <div className="col-span-1 md:col-span-2">
                 <h3 className="text-lg font-medium">
                   <Link 
-                    href={`/projects/${project.id}/kanban`} 
+                    href={`/dashboard/projects/${project.id}/kanban`} 
                     className="hover:text-purple-700 hover:underline"
                   >
                     {project.name}
@@ -75,7 +75,7 @@ const ProjectListView: React.FC<ProjectListViewProps> = ({ projects }) => {
                 ))}
               </div>
               <Link
-                href={`/projects/${project.id}`}
+                href={`/dashboard/projects/${project.id}`}
                 className="text-sm text-purple-600 hover:text-purple-800 font-medium hover:underline"
               >
                 View Board →

@@ -3,7 +3,7 @@ import ProjectsPage from './_components/ProjectsPage'
 const page = () => {
   return (
     <div>
-        <ProjectsPage />
+        <ProjectsPage  />
     </div>
   )
 }

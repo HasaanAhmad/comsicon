@@ -7,6 +7,7 @@ import KanbanView from "./KanbanView";
 import { getProjects, getProjectsAnalytics, getProjectWithKanban, moveTask } from "@/services/ProjectService";
 import { Project } from "@/types/project";
 import MainLayout from "../../../layout/MainLayout";
+import { Button } from "@/components/ui/button";
 
 const ProjectsPage = () => {
   const [view, setView] = useState<'list' | 'kanban'>('list');
@@ -92,6 +93,10 @@ const ProjectsPage = () => {
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <h1 className="text-2xl font-bold">Projects Overview</h1>
+        <Button onClick={() => console.log("Add Project clicked")}>
+            Add Project
+        </Button>
+        
         </div>
         
         <AnalyticsCards {...analytics} />

@@ -79,6 +79,11 @@ model Project {
   startDate       DateTime
   endDate         DateTime?
   status          ProjectStatus   @default(ACTIVE)
+  progress        Float           @default(0.0)
+  dueDate         DateTime?
+  tasksCount      Int             @default(0)
+  completedTasks  Int             @default(0)
+  views           Int             @default(0)
   
   organization    Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   members         ProjectMember[]

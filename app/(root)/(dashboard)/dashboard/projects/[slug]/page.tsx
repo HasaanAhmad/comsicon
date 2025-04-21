@@ -1,24 +1,14 @@
-import React from 'react';
-import ProjectKanbanView from './_components/KanbanListView';
+import React from 'react'
+import ProjectPage from './_components/KanbanView'
 
-interface ProjectPageProps {
-  params: {
-    slug: string;
-  };
-}
+type Props = {}
 
-const ProjectPage = ({ params }: ProjectPageProps) => {
-  // Use "paam" as the slug value
-  const projectSlug = params.slug;
-  console.log('====================================');
-  console.log(projectSlug);
-  console.log('====================================');
-  
+const page = (props: Props) => {
   return (
     <div>
-      <ProjectKanbanView slug= {projectSlug} />
+        <ProjectPage />
     </div>
-  );
-};
+  )
+}
 
-export default ProjectPage;
+export default page
