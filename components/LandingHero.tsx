@@ -84,7 +84,7 @@ const LandingHero = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           <img 
-            src="/photo-1605810230434-7631ac76ec81.jpg" 
+            src="/assets/landing.png" 
             alt="Platform dashboard"
             className="w-full max-w-3xl rounded-xl object-cover" 
           />
