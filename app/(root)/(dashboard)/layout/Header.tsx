@@ -1,8 +1,8 @@
-
 import React from "react";
 import { Bell, Search, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/app/store/useUser";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -13,12 +13,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "./ModeToggle";
+import { signOut } from '../actions/auth'
 
 interface HeaderProps {
   sidebarWidth: number;
 }
 
 const Header = ({ sidebarWidth }: HeaderProps) => {
+  const { user, setUser, isLoading, setIsLoading } = useUser()
+  console.log(user?.image);
+  
+
   return (
     <header 
       className="h-16 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-30 fixed top-0 right-0 flex items-center justify-between px-6"
@@ -47,17 +52,19 @@ const Header = ({ sidebarWidth }: HeaderProps) => {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
               <Avatar className="h-8 w-8">
-                <AvatarImage src="" alt="@user" />
-                <AvatarFallback className="bg-primary/10 text-primary">JD</AvatarFallback>
+                <AvatarImage src={user?.image || ""} alt={user?.name || "@user"} />
+                <AvatarFallback className="bg-primary/10 text-primary">
+                  {user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U'}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">John Doe</p>
+                <p className="text-sm font-medium leading-none">{user?.name || "Unnamed User"}</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  john.doe@example.com
+                  {user?.email || "No email"}
                 </p>
               </div>
             </DropdownMenuLabel>
@@ -65,7 +72,11 @@ const Header = ({ sidebarWidth }: HeaderProps) => {
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Log out</DropdownMenuItem>
+            <form action={signOut}>
+              <Button variant="ghost" className="w-full justify-start" type="submit">
+                Sign Out
+              </Button>
+            </form>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

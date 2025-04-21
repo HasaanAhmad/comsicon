@@ -14,3 +14,26 @@ export const getOnboarding = async () => {
     })
     return user?.onboardingComplete
 }
+
+export const getOrgCode = async () => {
+    const session = await auth()
+    if (!session?.user) {
+        return null
+    }
+    const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: {
+            organizationMemberships: {
+                select: {
+                    organization: {
+                        select: {
+                            code: true
+                        }
+                    }
+                },
+                take: 1
+            }
+        }
+    })
+    return user?.organizationMemberships[0]?.organization.code || null
+}

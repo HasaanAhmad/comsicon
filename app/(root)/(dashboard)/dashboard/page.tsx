@@ -1,4 +1,3 @@
-
 import MainLayout from '../layout/MainLayout';
 import { StatCards } from '../_components/StatCard';
 import { PerformanceChart, ProjectProgress, TaskDistributionChart } from '../_components/PerformanceChart';
@@ -8,11 +7,16 @@ import ChatPanel from '../_components/ChatPanel';
 import { auth } from '@/utils/auth';
 import { redirect } from 'next/navigation';
 import { getOnboarding } from './_actions/get_onboarding';
+import { getCurrentUser } from '@/app/actions/user';
+import { Button } from '@/components/ui/button';
+import { handleSignOut } from '@/app/actions/user';
+import { getOrgCode } from './_actions/get_onboarding';
 
 const page = async () => {
   const onboarding = await getOnboarding();
   const session = await auth()
-  console.log(onboarding);
+  const userData = await getCurrentUser();
+  const orgCode = await getOrgCode();
   
   if (!session?.user) {
     redirect('/authentication')
@@ -62,11 +66,27 @@ const page = async () => {
 
   return (
     <MainLayout>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back, John Doe. Here's what's happening today.
-        </p>
+      <div className="mb-8 flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <p className="text-muted-foreground">
+            Welcome back, {userData?.name || 'User'}. Here's what's happening today.
+          </p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Organization Code: {orgCode}
+          </p>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-muted-foreground">{userData?.email}</span>
+          <form action={async () => {
+            'use server'
+            await handleSignOut()
+          }}>
+            <Button variant="outline" type="submit">
+              Sign Out
+            </Button>
+          </form>
+        </div>
       </div>
       
       <StatCards />
@@ -101,6 +121,7 @@ const page = async () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <TaskList />
         <ChatPanel />
+        
       </div>
       
       <div className="mb-6">
@@ -108,7 +129,6 @@ const page = async () => {
       </div>
     </MainLayout>
   );
-
 }
 
 export default page
