@@ -9,7 +9,7 @@ const tabScreens = [
     value: "tasks",
     label: "Projects & Tasks",
     icon: <PieChart className="w-5 h-5 mr-2" />,
-    illustration: "/photo-1605810230434-7631ac76ec81.jpg",
+    illustration: "/assets/live_collaboration.png",
     title: "Stay Organized",
     desc: "Kanban boards, calendar view, priorities, and deadlines in one place. Assign tasks, drag-and-drop, and get work done efficiently."
   },
@@ -17,7 +17,7 @@ const tabScreens = [
     value: "chat",
     label: "Chat & Messaging",
     icon: <MessageSquare className="w-5 h-5 mr-2" />,
-    illustration: "/photo-1519389950473-47ba0277781c.jpg",
+    illustration: "/assets/messages.png",
     title: "Talk Instantly",
     desc: "Project-based channels, private messages, and file sharing make collaboration easy and keep conversation focused."
   },
@@ -25,7 +25,7 @@ const tabScreens = [
     value: "evaluation",
     label: "Performance",
     icon: <BarChart className="w-5 h-5 mr-2" />,
-    illustration: "/photo-1605810230434-7631ac76ec81.jpg",
+    illustration: "/assets/performance.png",
     title: "Track Results",
     desc: "See your team's progress, track task completion rates, and view custom evaluation metrics, all on an intuitive dashboard."
   },
@@ -33,7 +33,7 @@ const tabScreens = [
     value: "team",
     label: "Teamwork",
     icon: <Users className="w-5 h-5 mr-2" />,
-    illustration: "/photo-1581090464777-f3220bbe1b8b.jpg",
+    illustration: "/assets/teamwork.png",
     title: "Collaborate Smarter",
     desc: "Built for teamwork. Share feedback, review contributions, and keep everyone motivated towards success."
   },
@@ -97,8 +97,8 @@ const FeatureTabs = () => {
                             <img
                               src={activeTab.illustration}
                               alt={activeTab.title}
-                              className="w-full h-auto rounded-xl object-cover"
-                              style={{ aspectRatio: "16/9" }}
+                              className="w-full h-auto border-0 object-scale-down "
+                              style={{ aspectRatio: "" }}
                             />
                           </motion.div>
                         </div>
