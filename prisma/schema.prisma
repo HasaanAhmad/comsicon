@@ -6,20 +6,254 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
- 
 model User {
   id            String          @id @default(cuid())
   name          String?
   email         String          @unique
   emailVerified DateTime?
   image         String?
+  role          UserRole        @default(TEAM_MEMBER)
+  
+  // Authentication Relations
   accounts      Account[]
   sessions      Session[]
-
   Authenticator Authenticator[]
- 
+  
+  // App Relations
+  organizationMemberships OrganizationMember[]
+  assignedTasks           TaskAssignment[]
+  createdTasks            Task[]              @relation("TaskCreator")
+  projectMemberships      ProjectMember[]
+  sentMessages            Message[]           @relation("MessageSender")
+  receivedMessages        DirectMessage[]     @relation("MessageReceiver")
+  sentDirectMessages      DirectMessage[]     @relation("DirectMessageSender")
+  performanceReviews      PerformanceReview[] @relation("ReviewSubject")
+  conductedReviews        PerformanceReview[] @relation("Reviewer")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum UserRole {
+  MANAGER
+  TEAM_MEMBER
+}
+
+// Organization Management
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  code        String   @unique
+  description String?
+  logoUrl     String?
+  
+  members     OrganizationMember[]
+  projects    Project[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model OrganizationMember {
+  id             String         @id @default(cuid())
+  organizationId String
+  userId         String
+  role           UserRole       @default(TEAM_MEMBER)
+  
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@unique([organizationId, userId])
+}
+
+// Project Management
+model Project {
+  id              String          @id @default(cuid())
+  name            String
+  description     String?
+  organizationId  String
+  startDate       DateTime
+  endDate         DateTime?
+  status          ProjectStatus   @default(ACTIVE)
+  
+  organization    Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  members         ProjectMember[]
+  tasks           Task[]
+  chatChannels    ChatChannel[]
+  performanceReviews PerformanceReview[]
+  
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+enum ProjectStatus {
+  PLANNED
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+model ProjectMember {
+  id        String   @id @default(cuid())
+  projectId String
+  userId    String
+  role      UserRole @default(TEAM_MEMBER)
+  
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([projectId, userId])
+}
+
+// Task Management
+model Task {
+  id          String          @id @default(cuid())
+  title       String
+  description String?
+  projectId   String
+  creatorId   String
+  priority    TaskPriority    @default(MEDIUM)
+  status      TaskStatus      @default(TODO)
+  deadline    DateTime?
+  
+  project     Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  creator     User            @relation("TaskCreator", fields: [creatorId], references: [id])
+  assignments TaskAssignment[]
+  
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+}
+
+model TaskAssignment {
+  id        String   @id @default(cuid())
+  taskId    String
+  userId    String
+  
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startTime DateTime?
+  endTime   DateTime?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([taskId, userId])
+}
+
+// Communication System
+model ChatChannel {
+  id        String    @id @default(cuid())
+  name      String
+  projectId String
+  isPrivate Boolean   @default(false)
+  
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  messages  Message[]
+  
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Message {
+  id            String      @id @default(cuid())
+  content       String
+  senderId      String
+  channelId     String
+  
+  sender        User        @relation("MessageSender", fields: [senderId], references: [id])
+  channel       ChatChannel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  attachments   Attachment[]
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model DirectMessage {
+  id          String     @id @default(cuid())
+  content     String
+  senderId    String
+  receiverId  String
+  
+  sender      User       @relation("DirectMessageSender", fields: [senderId], references: [id])
+  receiver    User       @relation("MessageReceiver", fields: [receiverId], references: [id])
+  attachments Attachment[]
+  
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Attachment {
+  id              String        @id @default(cuid())
+  fileName        String
+  fileUrl         String
+  fileType        String
+  fileSize        Int
+  
+  // Polymorphic relationship for attachments
+  messageId       String?
+  directMessageId String?
+  
+  message         Message?      @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  directMessage   DirectMessage? @relation(fields: [directMessageId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+// Performance Tracking
+model PerformanceReview {
+  id             String   @id @default(cuid())
+  projectId      String
+  reviewerId     String  // Manager conducting the review
+  subjectId      String  // Team member being reviewed
+  
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  reviewer       User     @relation("Reviewer", fields: [reviewerId], references: [id])
+  subject        User     @relation("ReviewSubject", fields: [subjectId], references: [id])
+  
+  timeliness     Int?     // Scores on various criteria (e.g., 1-5)
+  taskQuality    Int?
+  collaboration  Int?
+  communication  Int?
+  
+  comments       String?
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([projectId, reviewerId, subjectId])
+}
+
+// Analytics Data (for dashboards)
+model TaskAnalytics {
+  id             String   @id @default(cuid())
+  taskId         String   @unique
+  timeSpent      Int?     // In minutes
+  statusChanges  Int      @default(0)
+  completionTime DateTime?
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
  
 model Account {
