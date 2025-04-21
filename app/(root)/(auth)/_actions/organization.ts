@@ -18,7 +18,7 @@ export async function createOrganization(name: string) {
       code,
       members: {
         create: {
-          userId: session.user.id,
+          userId: session.user.id!,
           role: "MANAGER"
         }
       }
@@ -44,7 +44,7 @@ export async function joinOrganization(code: string) {
 
   const member = await prisma.organizationMember.create({
     data: {
-      userId: session.user.id,
+      userId: session.user.id!,
       organizationId: organization.id,
       role: "TEAM_MEMBER"
     }
