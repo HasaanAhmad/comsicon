@@ -250,21 +250,21 @@ const mockKanbanProjects: Record<string, ProjectWithKanban> = {
         tasks: [
           {
             id: "task1",
-            title: "Social media content calendar",
-            description: "Create content calendar for campaign",
-            assignee: "user5",
-            dueDate: "2025-04-28",
+            title: "Create social media content calendar",
+            description: "Plan and create content for Q2 campaign",
+            assignee: "user1",
+            dueDate: "2025-04-25",
             priority: "high",
-            tags: ["content", "planning"]
+            tags: ["content", "social-media"]
           },
           {
             id: "task2",
-            title: "Email templates",
-            description: "Design and code email campaign templates",
-            assignee: "user1",
-            dueDate: "2025-04-30",
-            priority: "medium",
-            tags: ["design", "email"]
+            title: "Design campaign visuals",
+            description: "Create visual assets for all platforms",
+            assignee: "user5",
+            dueDate: "2025-04-28",
+            priority: "high",
+            tags: ["design", "creative"]
           }
         ]
       },
@@ -274,32 +274,42 @@ const mockKanbanProjects: Record<string, ProjectWithKanban> = {
         tasks: [
           {
             id: "task3",
-            title: "Influencer outreach",
-            description: "Contact and coordinate with influencers",
-            assignee: "user5",
-            dueDate: "2025-04-25",
+            title: "Email marketing setup",
+            description: "Configure email sequences and templates",
+            assignee: "user1",
+            dueDate: "2025-04-20",
             priority: "medium",
-            tags: ["outreach", "influencers"]
+            tags: ["email", "marketing"]
           }
         ]
       },
       {
         id: "col3",
         title: "Review",
-        tasks: []
+        tasks: [
+          {
+            id: "task4",
+            title: "Campaign budget allocation",
+            description: "Review and finalize budget distribution",
+            assignee: "user5",
+            dueDate: "2025-04-15",
+            priority: "medium",
+            tags: ["budget", "planning"]
+          }
+        ]
       },
       {
         id: "col4",
         title: "Completed",
         tasks: [
           {
-            id: "task4",
-            title: "Campaign strategy document",
-            description: "Finalize campaign strategy and goals",
+            id: "task5",
+            title: "Market research",
+            description: "Complete competitor and market analysis",
             assignee: "user1",
-            dueDate: "2025-04-15",
+            dueDate: "2025-04-10",
             priority: "high",
-            tags: ["strategy", "planning"]
+            tags: ["research", "analysis"]
           }
         ]
       }
@@ -311,66 +321,69 @@ const mockKanbanProjects: Record<string, ProjectWithKanban> = {
       {
         id: "col1",
         title: "To Do",
-        tasks: []
+        tasks: [
+          {
+            id: "task1",
+            title: "Final data verification",
+            description: "Verify all migrated data for accuracy",
+            assignee: "user3",
+            dueDate: "2025-03-30",
+            priority: "high",
+            tags: ["verification", "data"]
+          }
+        ]
       },
       {
         id: "col2",
         title: "In Progress",
-        tasks: []
+        tasks: [
+          {
+            id: "task2",
+            title: "User training documentation",
+            description: "Create training materials for new CRM",
+            assignee: "user4",
+            dueDate: "2025-03-28",
+            priority: "medium",
+            tags: ["documentation", "training"]
+          }
+        ]
       },
       {
         id: "col3",
         title: "Review",
-        tasks: []
+        tasks: [
+          {
+            id: "task3",
+            title: "System integration tests",
+            description: "Run final integration tests",
+            assignee: "user3",
+            dueDate: "2025-03-25",
+            priority: "high",
+            tags: ["testing", "integration"]
+          }
+        ]
       },
       {
         id: "col4",
         title: "Completed",
         tasks: [
           {
-            id: "task1",
+            id: "task4",
             title: "Data mapping",
-            description: "Map fields between old and new systems",
-            assignee: "user3",
-            dueDate: "2025-03-15",
-            priority: "high",
-            tags: ["data", "planning"]
-          },
-          {
-            id: "task2",
-            title: "Data cleaning script",
-            description: "Write scripts to clean and validate data",
+            description: "Complete data field mapping between systems",
             assignee: "user4",
             dueDate: "2025-03-20",
-            priority: "medium",
-            tags: ["data", "scripts"]
-          },
-          {
-            id: "task3",
-            title: "Test migration",
-            description: "Perform test migration with sample data",
-            assignee: "user3",
-            dueDate: "2025-03-25",
             priority: "high",
-            tags: ["testing", "data"]
-          },
-          {
-            id: "task4",
-            title: "Full migration",
-            description: "Execute full data migration",
-            assignee: "user4",
-            dueDate: "2025-03-30",
-            priority: "high",
-            tags: ["data", "migration"]
+            tags: ["mapping", "data"]
           },
           {
             id: "task5",
-            title: "Validation and verification",
-            description: "Verify data integrity after migration",
+            title: "Initial data transfer",
+            description: "Complete first phase of data migration",
             assignee: "user3",
-            dueDate: "2025-04-01",
+            dueDate: "2025-03-15",
             priority: "high",
-            tags: ["validation", "data"]
+            tags: ["migration", "data"]
           }
         ]
       }
@@ -385,39 +398,21 @@ const mockKanbanProjects: Record<string, ProjectWithKanban> = {
         tasks: [
           {
             id: "task1",
-            title: "Marketing materials",
-            description: "Create brochures, fact sheets, and presentation",
-            assignee: "user5",
-            dueDate: "2025-06-25",
+            title: "Product pricing strategy",
+            description: "Finalize pricing structure for new product line",
+            assignee: "user1",
+            dueDate: "2025-07-01",
             priority: "high",
-            tags: ["marketing", "materials"]
+            tags: ["pricing", "strategy"]
           },
           {
             id: "task2",
             title: "Launch event planning",
-            description: "Organize product launch event",
-            assignee: "user1",
-            dueDate: "2025-07-05",
-            priority: "medium",
-            tags: ["event", "planning"]
-          },
-          {
-            id: "task3",
-            title: "Press release",
-            description: "Draft and distribute press release",
+            description: "Plan and organize product launch event",
             assignee: "user5",
             dueDate: "2025-07-10",
-            priority: "medium",
-            tags: ["press", "content"]
-          },
-          {
-            id: "task4",
-            title: "Sales training",
-            description: "Train sales team on new product features",
-            assignee: "user2",
-            dueDate: "2025-07-01",
             priority: "high",
-            tags: ["training", "sales"]
+            tags: ["event", "planning"]
           }
         ]
       },
@@ -426,50 +421,51 @@ const mockKanbanProjects: Record<string, ProjectWithKanban> = {
         title: "In Progress",
         tasks: [
           {
-            id: "task5",
-            title: "Pricing strategy",
-            description: "Finalize pricing structure and strategy",
-            assignee: "user1",
-            dueDate: "2025-06-15",
-            priority: "high",
-            tags: ["pricing", "strategy"]
+            id: "task3",
+            title: "Marketing materials",
+            description: "Create marketing collateral for launch",
+            assignee: "user2",
+            dueDate: "2025-06-25",
+            priority: "medium",
+            tags: ["marketing", "content"]
           },
           {
-            id: "task6",
-            title: "Website updates",
-            description: "Update website with new product information",
-            assignee: "user2",
-            dueDate: "2025-06-20",
+            id: "task4",
+            title: "Sales team training",
+            description: "Prepare and conduct sales team training",
+            assignee: "user1",
+            dueDate: "2025-06-30",
             priority: "medium",
-            tags: ["website", "content"]
+            tags: ["training", "sales"]
           }
         ]
       },
       {
         id: "col3",
         title: "Review",
-        tasks: []
+        tasks: [
+          {
+            id: "task5",
+            title: "Product documentation",
+            description: "Review product documentation and manuals",
+            assignee: "user5",
+            dueDate: "2025-06-20",
+            priority: "low",
+            tags: ["documentation"]
+          }
+        ]
       },
       {
         id: "col4",
         title: "Completed",
         tasks: [
           {
-            id: "task7",
-            title: "Product positioning",
-            description: "Define product positioning and key messages",
-            assignee: "user5",
-            dueDate: "2025-06-01",
+            id: "task6",
+            title: "Market analysis",
+            description: "Complete market research and analysis",
+            assignee: "user2",
+            dueDate: "2025-06-15",
             priority: "high",
-            tags: ["marketing", "strategy"]
-          },
-          {
-            id: "task8",
-            title: "Competitor analysis",
-            description: "Complete analysis of competitive landscape",
-            assignee: "user1",
-            dueDate: "2025-05-25",
-            priority: "medium",
             tags: ["research", "analysis"]
           }
         ]
