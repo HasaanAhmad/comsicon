@@ -6,7 +6,11 @@ import TeamIllustration  from '@/components/TeamIllustration'
 import Testimonials  from '@/components/Testimonials'
 import React from 'react'
 
-const page = () => {
+
+
+const page = async () => {
+
+ 
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <LandingHero />

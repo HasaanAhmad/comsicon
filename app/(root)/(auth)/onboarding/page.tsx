@@ -9,7 +9,10 @@ import { createOrganization, joinOrganization } from "../_actions/organization"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
+
 export default function OnboardingPage() {
+
+  
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [orgName, setOrgName] = useState("")

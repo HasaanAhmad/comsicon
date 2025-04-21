@@ -1,12 +1,26 @@
-import React from 'react'
+
 import MainLayout from '../layout/MainLayout';
 import { StatCards } from '../_components/StatCard';
 import { PerformanceChart, ProjectProgress, TaskDistributionChart } from '../_components/PerformanceChart';
 import ProjectCard from '../_components/ProjectCard';
 import TaskList from '../_components/TaskList';
 import ChatPanel from '../_components/ChatPanel';
+import { auth } from '@/utils/auth';
+import { redirect } from 'next/navigation';
+import { getOnboarding } from './_actions/get_onboarding';
 
-const page = () => {
+const page = async () => {
+  const onboarding = await getOnboarding();
+  const session = await auth()
+  console.log(onboarding);
+  
+  if (!session?.user) {
+    redirect('/authentication')
+  }
+  if (!onboarding) {
+    redirect('/onboarding')
+  }
+
   const projects = [
     {
       title: "Website Redesign",
