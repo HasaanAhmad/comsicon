@@ -1,5 +1,7 @@
-
 import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { 
   LayoutDashboard, Users, MessageSquare, Calendar, 
@@ -15,64 +17,70 @@ interface SidebarProps {
 interface SidebarItemProps {
   icon: React.ElementType;
   label: string;
-  active?: boolean;
-  href?: string;
-  onClick?: () => void;
+  href: string;
+  collapsed?: boolean;
 }
 
 const SidebarItem = ({ 
   icon: Icon, 
   label, 
-  active = false, 
-  href = "#",
-  onClick
+  href,
+  collapsed = false
 }: SidebarItemProps) => {
+  const pathname = usePathname();
+  
+  // Check if current path matches or starts with the href
+  const isActive = pathname === href || 
+    (href !== '/dashboard' && pathname.startsWith(href));
+  
   return (
-    <a 
-      href={href} 
-      onClick={onClick}
+    <Link 
+      href={href}
       className={cn(
         "sidebar-item group",
-        active && "active"
+        isActive && "active"
       )}
     >
       <Icon className="w-5 h-5" />
-      <span className="transition-all duration-200">{label}</span>
-    </a>
+      {!collapsed && (
+        <span className="transition-all duration-200">{label}</span>
+      )}
+    </Link>
   );
 };
 
 const Sidebar = ({ className }: SidebarProps) => {
   const [collapsed, setCollapsed] = useState(false);
-  const [activeItem, setActiveItem] = useState("Dashboard");
 
   const handleToggleCollapse = () => {
     setCollapsed(!collapsed);
   };
 
-  const handleItemClick = (label: string) => {
-    setActiveItem(label);
-  };
-
   return (
     <div 
       className={cn(
-        "h-screen fixed left-0 top-0 z-40 flex flex-col bg-sidebar transition-all duration-300 border-r",
+        "h-screen fixed left-0 top-0 z-40 flex flex-col bg-sidebar text-sidebar-foreground transition-all duration-300 border-r border-sidebar-border",
         collapsed ? "w-[70px]" : "w-[250px]",
         className
       )}
     >
-      <div className="flex items-center p-4 border-b">
+      <div className="flex items-center p-4 border-b border-sidebar-border">
         {!collapsed && (
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-md bg-gradient-to-br from-kaam-purple to-kaam-vivid-purple flex items-center justify-center">
+            <div className="w-8 h-8 rounded-md bg-gradient-to-br from-sidebar-primary to-accent flex items-center justify-center">
               <span className="text-white font-bold">K</span>
             </div>
-            <h1 className="text-xl font-bold text-foreground">KaamShaam</h1>
+            <Image 
+              src="/logo.png" 
+              alt="Logo" 
+              width={100} 
+              height={32} 
+              className="rounded-md"
+            />
           </div>
         )}
         {collapsed && (
-          <div className="w-8 h-8 mx-auto rounded-md bg-gradient-to-br from-kaam-purple to-kaam-vivid-purple flex items-center justify-center">
+          <div className="w-8 h-8 mx-auto rounded-md bg-gradient-to-br from-sidebar-primary to-accent flex items-center justify-center">
             <span className="text-white font-bold">K</span>
           </div>
         )}
@@ -85,57 +93,57 @@ const Sidebar = ({ className }: SidebarProps) => {
         <nav className="space-y-1 px-2">
           <SidebarItem 
             icon={LayoutDashboard} 
-            label={collapsed ? "" : "Dashboard"} 
-            active={activeItem === "Dashboard"}
-            onClick={() => handleItemClick("Dashboard")}
+            label="Dashboard" 
+            href="/dashboard"
+            collapsed={collapsed}
           />
           <SidebarItem 
             icon={FileText} 
-            label={collapsed ? "" : "Projects"} 
-            active={activeItem === "Projects"}
-            onClick={() => handleItemClick("Projects")}
+            label="Projects" 
+            href="/dashboard/projects"
+            collapsed={collapsed}
           />
           <SidebarItem 
             icon={MessageSquare} 
-            label={collapsed ? "" : "Chat"} 
-            active={activeItem === "Chat"}
-            onClick={() => handleItemClick("Chat")}
+            label="Chat" 
+            href="/dashboard/chat"
+            collapsed={collapsed}
           />
           <SidebarItem 
             icon={Calendar} 
-            label={collapsed ? "" : "Calendar"} 
-            active={activeItem === "Calendar"}
-            onClick={() => handleItemClick("Calendar")}
+            label="Calendar" 
+            href="/dashboard/calendar"
+            collapsed={collapsed}
           />
           <SidebarItem 
             icon={PieChart} 
-            label={collapsed ? "" : "Performance"} 
-            active={activeItem === "Performance"}
-            onClick={() => handleItemClick("Performance")}
+            label="Performance" 
+            href="/dashboard/performance"
+            collapsed={collapsed}
           />
         </nav>
 
-        {!collapsed && <div className="px-3 pt-4 mt-4 border-t">
+        {!collapsed && <div className="px-3 pt-4 mt-4 border-t border-sidebar-border">
           <h2 className="text-xs font-semibold text-muted-foreground mb-2 px-3">TEAM</h2>
         </div>}
         <nav className="space-y-1 px-2">
           <SidebarItem 
             icon={Users} 
-            label={collapsed ? "" : "Members"} 
-            active={activeItem === "Members"}
-            onClick={() => handleItemClick("Members")}
+            label="Members" 
+            href="/dashboard/members"
+            collapsed={collapsed}
           />
           <SidebarItem 
             icon={Bell} 
-            label={collapsed ? "" : "Notifications"} 
-            active={activeItem === "Notifications"}
-            onClick={() => handleItemClick("Notifications")}
+            label="Notifications" 
+            href="/dashboard/notifications"
+            collapsed={collapsed}
           />
           <SidebarItem 
             icon={Settings} 
-            label={collapsed ? "" : "Settings"} 
-            active={activeItem === "Settings"}
-            onClick={() => handleItemClick("Settings")}
+            label="Settings" 
+            href="/dashboard/settings"
+            collapsed={collapsed}
           />
         </nav>
 
@@ -151,12 +159,12 @@ const Sidebar = ({ className }: SidebarProps) => {
         </div>
       </div>
 
-      <div className="border-t p-4">
+      <div className="border-t border-sidebar-border p-4">
         <div className={cn(
           "flex items-center",
           collapsed ? "justify-center" : "space-x-3"
         )}>
-          <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-sidebar-accent flex items-center justify-center">
             <User className="h-4 w-4" />
           </div>
           {!collapsed && (

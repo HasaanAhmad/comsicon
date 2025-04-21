@@ -1,4 +1,4 @@
-
+'use client'
 import React, { useState } from "react";
 import MainLayout from "../../../layout/MainLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
