@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
 import Link from "next/link";
 import MainLayout from "../../../../layout/MainLayout";
 import KanbanView from "../../_components/KanbanView";
@@ -10,18 +9,21 @@ import { getProjectWithKanban, moveTask } from "@/services/ProjectService";
 import { ArrowLeft } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
-const ProjectKanbanView = () => {
-  const { projectId } = useParams<{ projectId: string }>();
+interface ProjectKanbanViewProps {
+  slug: string;
+}
+
+const ProjectKanbanView = ({ slug }: ProjectKanbanViewProps) => {
   const [project, setProject] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProject = async () => {
-      if (!projectId) return;
+      if (!slug) return;
       
       try {
         setLoading(true);
-        const projectData = await getProjectWithKanban(projectId);
+        const projectData = await getProjectWithKanban(slug);
         setProject(projectData);
       } catch (error) {
         console.error("Error fetching project:", error);
@@ -31,14 +33,14 @@ const ProjectKanbanView = () => {
     };
     
     fetchProject();
-  }, [projectId]);
+  }, [slug]);
 
   const handleTaskMove = async (taskId: string, sourceColumnId: string, targetColumnId: string) => {
-    if (!project || !projectId) return;
+    if (!project || !slug) return;
     
     try {
       const updatedProject = await moveTask(
-        projectId,
+        slug,
         taskId,
         sourceColumnId,
         targetColumnId
@@ -54,10 +56,10 @@ const ProjectKanbanView = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'completed': return 'bg-blue-100 text-blue-800';
-      case 'on-hold': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'active': return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200';
+      case 'completed': return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200';
+      case 'on-hold': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200';
+      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-800/30 dark:text-gray-200';
     }
   };
 
@@ -66,7 +68,7 @@ const ProjectKanbanView = () => {
       <div className="space-y-6">
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/projects" className="flex items-center text-muted-foreground">
+            <Link href="/dashboard/projects" className="flex items-center text-muted-foreground">
               <ArrowLeft className="h-4 w-4 mr-1" />
               Back to Projects
             </Link>
@@ -76,8 +78,8 @@ const ProjectKanbanView = () => {
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="animate-pulse flex flex-col items-center gap-4">
-              <div className="h-8 bg-gray-200 rounded w-48"></div>
-              <div className="h-4 bg-gray-200 rounded w-24"></div>
+              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-48"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
             </div>
           </div>
         ) : project ? (
@@ -86,6 +88,7 @@ const ProjectKanbanView = () => {
               <div>
                 <h1 className="text-2xl font-bold">{project.name}</h1>
                 <p className="text-muted-foreground mt-1">{project.description}</p>
+                <div className="text-sm text-muted-foreground mt-1">Project ID: {slug}</div>
               </div>
               
               <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
@@ -113,6 +116,7 @@ const ProjectKanbanView = () => {
         ) : (
           <div className="text-center py-12">
             <h2 className="text-xl font-semibold text-muted-foreground">Project not found</h2>
+            <p className="mt-2 text-muted-foreground">Could not find project with ID: {slug}</p>
           </div>
         )}
       </div>

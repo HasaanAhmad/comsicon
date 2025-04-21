@@ -10,10 +10,13 @@ interface ProjectPageProps {
 const ProjectPage = ({ params }: ProjectPageProps) => {
   // Use "paam" as the slug value
   const projectSlug = params.slug;
+  console.log('====================================');
+  console.log(projectSlug);
+  console.log('====================================');
   
   return (
     <div>
-      <ProjectKanbanView />
+      <ProjectKanbanView slug= {projectSlug} />
     </div>
   );
 };
