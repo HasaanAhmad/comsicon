@@ -13,6 +13,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks:{
     async session({session, user}){
       session.user.id = user.id;
+      session.user.onboardingComplete = user.onboardingComplete;
       return session;
     }
   }

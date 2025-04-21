@@ -13,6 +13,7 @@ model User {
   emailVerified DateTime?
   image         String?
   role          UserRole        @default(TEAM_MEMBER)
+  onboardingComplete Boolean    @default(false)
   
   // Authentication Relations
   accounts      Account[]

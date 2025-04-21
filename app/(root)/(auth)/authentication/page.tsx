@@ -1,10 +1,18 @@
-'use client';
 import React from "react";
 import LoginForm from "../_components/LoginForm";
 import { ModeToggle } from "../../(dashboard)/layout/ModeToggle";
 import Image from "next/image";
+import { auth } from "@/utils/auth";
+import { redirect } from "next/navigation";
 
-const Auth = () => {
+const Auth = async () => {
+  const session = await auth()
+  if (session?.user) {
+    if (!session.user.onboardingComplete) {
+      redirect('/onboarding')
+    }
+    redirect('/dashboard')
+  }
   return (
     <div className="min-h-screen w-full overflow-hidden flex flex-col md:flex-row bg-white dark:bg-gray-950">
       {/* Left side - Branding */}
